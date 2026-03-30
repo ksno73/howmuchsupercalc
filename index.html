@@ -20,7 +20,7 @@
             border: 1px solid #e9ecef;
         }
         h1 {
-            text-align: center;
+            text-align: left;
             color: #0a3e5f;
             margin-bottom: 25px;
             font-size: 24px;
@@ -68,11 +68,11 @@
 <body>
     <div class="container">
         <h1>How much super should I have?</h1>
-        <p>Estimate the current super balance needed to reach $595,000 at age 67.</p>
+        <p>Estimate the super balance needed to be on track for a comfortable retirement at age 67.</p>
         <label for="age" class="form-label">Enter your current age:</label>
         <input type="number" id="age" class="form-control" min="18" max="66" placeholder="e.g., 40">
         <button class="btn btn-primary mt-3" onclick="calculate()">Calculate</button>
-        <div id="result"></div>
+        <div id="result" style="display: none;"></div>
         
         <div class="accordion mt-4" id="disclaimerAccordion">
             <div class="accordion-item">
@@ -97,38 +97,35 @@
             const resultDiv = document.getElementById('result');
 
             if (isNaN(age) || age < 18 || age > 66) {
+                resultDiv.style.display = 'block';
                 resultDiv.innerHTML = '<p style="color: red;">Please enter a valid age between 18 and 66.</p>';
                 return;
             }
 
-            const years = 67 - age;
-            const salary = 65000;
-            const superRate = 0.12;
-            const taxRate = 0.15;
-            const adminPercent = 0.001;
-            const adminDollar = 52.40;
-            const insurance = 512;
-            const growthRate = 0.04;
-            const target = 595000;
+            const retage = 67;
+            const asfacomfortable = 595000;
+            const wagegrowth = 0.037;
+            const cpi = 0.025; // included per model but unused
+            const salary = 74100;
+            const sg = 0.12;
+            const conttax = 0.15;
+            const dollarfee = 52;
+            const return_rate = 0.065;
+            const prcntfee = 0.001;
+            const insur = 521;
 
-            // Calculate net annual contribution
-            const grossContrib = salary * superRate;
-            const contribTax = grossContrib * taxRate;
-            const netContrib = grossContrib - contribTax;
-            const annualDeductions = adminDollar + insurance;
-            const effectiveNetContrib = netContrib - annualDeductions;
+            const years = retage - age;
+            const netcont = (salary * sg) * (1 - conttax) - dollarfee - insur;
+            const netreturn = return_rate - prcntfee;
 
-            // Effective growth rate after admin fees
-            const effectiveGrowthRate = growthRate - adminPercent;
+            const fv_contributions = (netcont * (Math.pow(1 + netreturn, years) - Math.pow(1 + wagegrowth, years))) / (netreturn - wagegrowth);
+            const fv_asfa = asfacomfortable * Math.pow(1 + wagegrowth, years);
 
-            // Future value of contributions
-            const fvContributions = effectiveNetContrib * ((Math.pow(1 + effectiveGrowthRate, years) - 1) / effectiveGrowthRate);
+            const current_balance_needed = (fv_asfa - fv_contributions) / Math.pow(1 + netreturn, years);
+            const final_result = Math.max(0, Math.ceil(current_balance_needed / 1000) * 1000);
 
-            // Current balance needed
-            const currentNeeded = (target - fvContributions) / Math.pow(1 + effectiveGrowthRate, years);
-            const roundedNeeded = Math.max(0, Math.round(currentNeeded / 1000) * 1000);
-
-            resultDiv.innerHTML = `<p>Current super balance needed: $${roundedNeeded.toLocaleString()}</p>`;
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = `<p>Estimated balance needed: $${final_result.toLocaleString()}</p>`;
         }
     </script>
 </body>
