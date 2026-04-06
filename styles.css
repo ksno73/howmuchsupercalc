@@ -11,12 +11,42 @@ body {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     border: 1px solid #e9ecef;
 }
+
+/* Responsive container */
+@media (max-width: 768px) {
+    .container {
+        margin: 10px;
+        padding: 20px;
+        max-width: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        margin: 5px;
+        padding: 15px;
+    }
+}
 h1 {
     text-align: left;
     color: #0a3e5f;
     margin-bottom: 25px;
     font-size: 24px;
     font-weight: 600;
+}
+
+/* Responsive typography */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 18px;
+    }
 }
 #result {
     margin-top: 20px;
@@ -67,6 +97,13 @@ h1 {
     gap: 12px;
     margin-bottom: 15px;
 }
+/* Responsive grid */
+@media (max-width: 768px) {
+    .assumptions-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+}
 .assumption-field {
     display: flex;
     flex-direction: column;
@@ -82,6 +119,15 @@ h1 {
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 14px;
+    min-height: 44px; /* Touch target size */
+}
+
+/* Responsive inputs */
+@media (max-width: 480px) {
+    .assumption-field input {
+        font-size: 16px; /* Prevent zoom on iOS */
+        padding: 12px 8px;
+    }
 }
 .btn-recalculate {
     background-color: #0d6efd;
@@ -92,9 +138,27 @@ h1 {
     border-radius: 6px;
     color: white;
     cursor: pointer;
+    min-height: 44px; /* Touch target size */
+    transition: all 0.2s ease;
 }
+
 .btn-recalculate:hover {
     background-color: #0b5ed7;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(13, 110, 253, 0.3);
+}
+
+.btn-recalculate:active {
+    transform: translateY(0);
+}
+
+/* Responsive buttons */
+@media (max-width: 480px) {
+    .btn-recalculate {
+        width: 100%;
+        padding: 14px 20px;
+        font-size: 16px; /* Prevent zoom on iOS */
+    }
 }
 .loading {
     display: inline-block;
