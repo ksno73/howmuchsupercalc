@@ -1,0 +1,42 @@
+{
+    "name": "howmuchsupercalc",
+    "version": "1.0.0",
+    "type": "module",
+    "description": "Superannuation calculator to estimate required balance for comfortable retirement",
+    "main": "index.html",
+    "scripts": {
+        "dev": "serve . -p 3000",
+        "build": "echo 'No build step required for vanilla JS'",
+        "lint": "eslint js/*.js main.js",
+        "lint:fix": "eslint js/*.js main.js --fix",
+        "format": "prettier --write \"**/*.{js,html,css,json,md}\"",
+        "format:check": "prettier --check \"**/*.{js,html,css,json,md}\"",
+        "test": "node --experimental-modules test/calculator.test.js",
+        "serve": "serve . -p 3000"
+    },
+    "keywords": [
+        "superannuation",
+        "retirement",
+        "calculator",
+        "finance"
+    ],
+    "author": "ksno73",
+    "license": "MIT",
+    "devDependencies": {
+        "eslint": "^8.57.0",
+        "prettier": "^3.2.5",
+        "serve": "^14.2.1"
+    },
+    "engines": {
+        "node": ">=14.0.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ksno73/howmuchsupercalc.git"
+    },
+    "browserslist": [
+        "last 2 versions",
+        "> 1%",
+        "not dead"
+    ]
+}
