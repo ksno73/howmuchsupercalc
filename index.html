@@ -1,147 +1,339 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>How much super should I have?</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-        <link href="styles.css" rel="stylesheet" />
-    </head>
-    <body>
-        <div class="container">
-            <h1>How much super should I have?</h1>
-            <p>Estimate the super balance needed to be on track for a comfortable retirement at age 67.</p>
-            <label for="age" class="form-label">Enter your current age:</label>
-            <input type="number" id="age" class="form-control" min="18" max="66" placeholder="e.g., 40" />
-            <button class="btn btn-primary mt-3" onclick="window.calculate()">Calculate</button>
-            <div id="result" style="display: none"></div>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>How much super should I have?</title>
 
-            <div class="accordion mt-4" id="accordion">
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button
-                            class="accordion-button collapsed"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#assumptionsContent"
-                        >
-                            Edit assumptions
-                        </button>
-                    </h2>
-                    <div id="assumptionsContent" class="accordion-collapse collapse" data-bs-parent="#accordion">
-                        <div class="accordion-body">
-                            <div class="assumptions-grid">
-                                <div class="assumption-field">
-                                    <label for="salaryInput">Salary ($)</label>
-                                    <input
-                                        type="number"
-                                        id="salaryInput"
-                                        step="1000"
-                                        value="74100"
-                                        aria-describedby="salaryHelp"
-                                    />
-                                    <div id="salaryHelp" class="form-text">Annual salary before tax</div>
-                                </div>
-                                <div class="assumption-field">
-                                    <label for="wageGrowthInput">Wage Growth (%)</label>
-                                    <input type="number" id="wageGrowthInput" step="0.1" value="3.7" />
-                                </div>
-                                <div class="assumption-field">
-                                    <label for="sgInput">Employer contribution rate (%)</label>
-                                    <input type="number" id="sgInput" step="0.1" value="12" />
-                                </div>
-                                <div class="assumption-field">
-                                    <label for="returnInput">Return Rate (%)</label>
-                                    <input type="number" id="returnInput" step="0.1" value="6.5" />
-                                </div>
-                                <div class="assumption-field">
-                                    <label for="prcntFeeInput">Percentage admin fee (%)</label>
-                                    <input type="number" id="prcntFeeInput" step="0.01" value="0.1" />
-                                </div>
-                                <div class="assumption-field">
-                                    <label for="dollarFeeInput">Dollar admin fee ($)</label>
-                                    <input type="number" id="dollarFeeInput" step="0.01" value="57.2" />
-                                </div>
-                                <div class="assumption-field">
-                                    <label for="insuranceInput">Annual insurance cost ($)</label>
-                                    <input type="number" id="insuranceInput" step="1" value="521" />
+    <!-- Bootstrap 5 CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container-xl py-5">
+        <div class="row g-4 align-items-start">
+            <!-- Calculator column with border -->
+            <div class="col-12 col-xl-8">
+                <div class="border rounded-3 p-4">
+                    <section>
+                        <h1 class="h2 mb-2">How much super should I have?</h1>
+                        <p class="text-muted mb-4">Enter your current age to estimate the super balance needed for comfortable retirement planning.</p>
+
+                        <div class="mb-3">
+                            <label for="age" class="form-label">Enter your current age:</label>
+                            <input id="age" type="number" min="18" max="66" class="form-control" placeholder="e.g. 65" />
+                        </div>
+
+                        <button type="button" class="btn btn-primary mb-4" onclick="calculate()">Calculate</button>
+
+                        <div id="result" class="alert alert-secondary visually-hidden" role="status"></div>
+                    </section>
+
+                    <div class="accordion" id="assumptionsAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="assumptionsHeading">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#assumptionsCollapse" aria-expanded="false" aria-controls="assumptionsCollapse">
+                                    Edit assumptions
+                                </button>
+                            </h2>
+                            <div id="assumptionsCollapse" class="accordion-collapse collapse" aria-labelledby="assumptionsHeading">
+                                <div class="accordion-body">
+                                    <div class="row g-3">
+                                        <div class="col-12 col-md-6">
+                                            <label for="salaryInput" class="form-label">Salary ($)</label>
+                                            <input id="salaryInput" type="number" class="form-control" placeholder="74,100" />
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <label for="wageGrowthInput" class="form-label">Wage growth (%)</label>
+                                            <input id="wageGrowthInput" type="number" step="0.1" class="form-control" placeholder="3.7" />
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <label for="sgInput" class="form-label">Employer contribution rate (%)</label>
+                                            <input id="sgInput" type="number" step="0.1" class="form-control" placeholder="12" />
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <label for="returnInput" class="form-label">Return rate (%)</label>
+                                            <input id="returnInput" type="number" step="0.1" class="form-control" placeholder="6.5" />
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <label for="prcntFeeInput" class="form-label">Percentage admin fee (%)</label>
+                                            <input id="prcntFeeInput" type="number" step="0.01" class="form-control" placeholder="0.10" />
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <label for="dollarFeeInput" class="form-label">Dollar admin fee ($)</label>
+                                            <input id="dollarFeeInput" type="number" step="0.01" class="form-control" placeholder="57.20" />
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <label for="insuranceInput" class="form-label">Annual insurance cost ($)</label>
+                                            <input id="insuranceInput" type="number" class="form-control" placeholder="521" />
+                                        </div>
+                                    </div>
+
+                                    <button type="button" class="btn btn-secondary mt-4" onclick="recalculateWithAssumptions()">Recalculate</button>
                                 </div>
                             </div>
-                            <button class="btn btn-recalculate" onclick="window.recalculateWithAssumptions()">
-                                Recalculate
-                            </button>
                         </div>
                     </div>
                 </div>
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button
-                            class="accordion-button collapsed"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#disclaimerContent"
-                        >
-                            Important information
-                        </button>
-                    </h2>
-                    <div id="disclaimerContent" class="accordion-collapse collapse" data-bs-parent="#accordion">
-                        <div class="accordion-body">
-                            <p class="disclaimer-text">
-                                <strong>Disclaimer:</strong> This calculator provides general information only and does
-                                not take into account your personal objectives, financial situation or needs. It is not
-                                intended to be financial advice and should not be relied on to make financial
-                                decisions.<br /><br />
+            </div>
 
-                                The results are estimates only and are based on a range of assumptions used in the
-                                model. These include assumed investment returns, contribution rates, fees, insurance
-                                premiums and inflation. These assumptions are simplified and applied consistently over
-                                time and do not reflect real-world variability.<br /><br />
+            <!-- Important information column -->
+            <div class="col-12 col-xl-4">
+                <div class="important-panel mb-4 border rounded-3 overflow-hidden">
+                    <div class="p-3 bg-light border-bottom">
+                        <h2 class="h6 mb-0">Important information</h2>
+                    </div>
+                    <div class="p-4">
+                        <p class="mb-3"><strong>This calculator:</strong></p>
+                        <ul class="mb-0 ps-3">
+                            <li>Estimates how much super a single person should have today to be on track for a comfortable retirement</li>
+                            <li>Is based on ASFAs benchmark for retirement spending, which you can read about here</li>
+                            <li>Is an estimate only and should not be relied upon for making financial or product decisions</li>
+                        </ul>
+                    </div>
 
-                                The calculator assumes:<br />
-                                • a constant annual investment return, applied uniformly each year<br />
-                                • regular superannuation contributions with no gaps in employment unless input by the
-                                user<br />
-                                • fees and insurance premiums are applied at assumed or average levels and may not
-                                reflect your actual super fund<br />
-                                • contributions, fees and insurance remain broadly consistent over time unless
-                                changed<br />
-                                • current superannuation rules, tax settings and contribution caps remain unchanged<br /><br />
-
-                                This calculator models outcomes using annual projections and does not fully reflect the
-                                impact of short-term market volatility, sequencing risk, or year-to-year fluctuations in
-                                returns.<br /><br />
-
-                                Where a retirement target is shown, it is based on the Association of Superannuation
-                                Funds of Australia "comfortable" standard for a single person. This standard assumes:<br />
-                                • retirement at approximately age 65–67<br />
-                                • the individual owns their home outright<br />
-                                • spending patterns consistent with ASFA's definition of a "comfortable" lifestyle<br /><br />
-
-                                This standard may not be appropriate for your circumstances. Different household types
-                                (e.g. couples), renting in retirement, or retiring earlier or later may require
-                                materially different levels of superannuation.<br /><br />
-
-                                This calculator has important limitations. It does not fully account for:<br />
-                                • variability in investment returns, including periods of negative returns<br />
-                                • changes in salary, employment patterns or contribution behaviour over time<br />
-                                • fund-specific fees, insurance arrangements or tax outcomes<br />
-                                • changes to superannuation legislation, tax rules or Age Pension settings<br />
-                                • individual strategies such as additional contributions, withdrawals or pension phase
-                                decisions<br /><br />
-
-                                Actual outcomes may differ significantly from the results shown.<br /><br />
-
-                                You should consider whether the assumptions used are appropriate for your circumstances
-                                and consider seeking professional financial advice before making any decisions based on
-                                this calculator.
-                            </p>
+                    <div class="accordion" id="importantAccordion" style="border-top: 1px solid #dee2e6;">
+                        <div class="accordion-item border-0">
+                            <h2 class="accordion-header" id="importantHeading">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#importantCollapse" aria-expanded="false" aria-controls="importantCollapse">
+                                    Read the limitations & assumptions
+                                </button>
+                            </h2>
+                            <div id="importantCollapse" class="accordion-collapse collapse" aria-labelledby="importantHeading">
+                                <div class="accordion-body">
+                                    <p>This calculator is for illustration only. It uses general assumptions and does not take into account your individual financial situation, goals, or risk profile. Do not rely on this estimate as financial advice.</p>
+                                    <p>The estimate is based on fixed assumptions about wage growth, investment returns, fees, insurance costs, and contributions. Actual results may vary due to changes in the market, your employment, legislation, fees, or personal circumstances.</p>
+                                    <p>For a precise assessment, review the assumptions carefully and consider seeking qualified financial advice.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script type="module" src="main.js"></script>
-    </body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Input structure and defaults
+        const DEFAULT_ASSUMPTIONS = {
+            salary: 74100,
+            wageGrowth: 3.7, // percentage
+            sgRate: 12, // percentage (employer contribution rate)
+            returnRate: 6.5, // percentage
+            percentFee: 0.1, // percentage (percentage admin fee)
+            dollarFee: 57.2, // dollar admin fee
+            insurance: 521, // annual insurance cost
+        };
+
+        const CALCULATION_CONSTANTS = {
+            retirementAge: 67,
+            comfortableRetirementBalance: 630000,
+            cpi: 0.025, // included per model but unused
+            contributionTax: 0.15,
+        };
+
+        function getDefaultAssumptions() {
+            return { ...DEFAULT_ASSUMPTIONS };
+        }
+
+        function getCalculationConstants() {
+            return { ...CALCULATION_CONSTANTS };
+        }
+
+        // Input validation utilities
+        function validateNumericInput(value, min, max, fieldName) {
+            const num = parseFloat(value);
+            if (isNaN(num)) {
+                return { valid: false, message: `${fieldName} must be a valid number` };
+            }
+            if (num < min) {
+                return { valid: false, message: `${fieldName} must be at least ${min}` };
+            }
+            if (num > max) {
+                return { valid: false, message: `${fieldName} must be no more than ${max}` };
+            }
+            return { valid: true, value: num };
+        }
+
+        function validateAllAssumptions() {
+            const validations = [
+                validateNumericInput(document.getElementById('salaryInput').value, 0, 250000, 'Salary'),
+                validateNumericInput(document.getElementById('wageGrowthInput').value, 0, 20, 'Wage Growth'),
+                validateNumericInput(document.getElementById('sgInput').value, 0, 20, 'Employer contribution rate'),
+                validateNumericInput(document.getElementById('returnInput').value, 0, 15, 'Return Rate'),
+                validateNumericInput(document.getElementById('prcntFeeInput').value, 0, 10, 'Percentage admin fee'),
+                validateNumericInput(document.getElementById('dollarFeeInput').value, 0, 10000, 'Dollar admin fee'),
+                validateNumericInput(document.getElementById('insuranceInput').value, 0, 10000, 'Annual insurance cost'),
+            ];
+
+            const errors = validations.filter((v) => !v.valid).map((v) => v.message);
+            if (errors.length > 0) {
+                return { valid: false, errors };
+            }
+
+            return {
+                valid: true,
+                assumptions: {
+                    salary: validations[0].value,
+                    wageGrowth: validations[1].value / 100, // Convert percentage to decimal
+                    sgRate: validations[2].value / 100,
+                    returnRate: validations[3].value / 100,
+                    percentFee: validations[4].value / 100,
+                    dollarFee: validations[5].value,
+                    insurance: validations[6].value,
+                },
+            };
+        }
+
+        // Assumptions and rates
+        function getAssumptionsFromInputs() {
+            const validation = validateAllAssumptions();
+            if (!validation.valid) {
+                throw new Error(validation.errors.join(', '));
+            }
+            return validation.assumptions;
+        }
+
+        function getNetContributionRate(assumptions) {
+            return (
+                assumptions.salary * assumptions.sgRate * (1 - CALCULATION_CONSTANTS.contributionTax) -
+                assumptions.dollarFee -
+                assumptions.insurance
+            );
+        }
+
+        function getNetReturnRate(assumptions) {
+            return assumptions.returnRate - assumptions.percentFee;
+        }
+
+        // Pure calculation logic
+        function calculateRequiredSuperBalance(currentAge, assumptions) {
+            const yearsToRetirement = CALCULATION_CONSTANTS.retirementAge - currentAge;
+
+            const netContribution = getNetContributionRate(assumptions);
+            const netReturn = getNetReturnRate(assumptions);
+
+            // Future value of contributions using geometric series formula
+            const fvContributions =
+                (netContribution *
+                    (Math.pow(1 + netReturn, yearsToRetirement) - Math.pow(1 + assumptions.wageGrowth, yearsToRetirement))) /
+                (netReturn - assumptions.wageGrowth);
+
+            // Future value of required retirement balance, adjusted for wage growth
+            const fvRequiredBalance =
+                CALCULATION_CONSTANTS.comfortableRetirementBalance * Math.pow(1 + assumptions.wageGrowth, yearsToRetirement);
+
+            // Current balance needed
+            const currentBalanceNeeded = (fvRequiredBalance - fvContributions) / Math.pow(1 + netReturn, yearsToRetirement);
+
+            // Round up to nearest $1000 and ensure non-negative
+            return Math.max(0, Math.ceil(currentBalanceNeeded / 1000) * 1000);
+        }
+
+        function validateAge(age) {
+            if (isNaN(age) || age < 18 || age > 66) {
+                return { valid: false, message: 'Please enter a valid age between 18 and 66.' };
+            }
+            return { valid: true };
+        }
+
+        // Display helpers and formatting
+        function formatCurrency(amount) {
+            return `$${amount.toLocaleString()}`;
+        }
+
+        function formatPercentage(value) {
+            return `${(value * 100).toFixed(1)}%`;
+        }
+
+        function displayResult(balance) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.classList.remove('visually-hidden');
+            resultDiv.classList.add('alert-primary');
+            resultDiv.classList.remove('alert-danger');
+            resultDiv.innerHTML = `<p>To be on track you should have around ${formatCurrency(balance)}.</p>`;
+        }
+
+        function displayError(message) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.classList.remove('visually-hidden');
+            resultDiv.classList.add('alert-danger');
+            resultDiv.classList.remove('alert-success');
+            resultDiv.innerHTML = `<p>${message}</p>`;
+        }
+
+        // UI Controller
+        function calculate() {
+            const calculateBtn = document.querySelector('button[onclick*="calculate"]');
+            const originalText = calculateBtn.innerHTML;
+
+            // Show loading state
+            calculateBtn.innerHTML = '<span class="spinner-border spinner-border-sm" aria-hidden="true"></span> Calculating...';
+            calculateBtn.disabled = true;
+
+            try {
+                const ageInput = document.getElementById('age');
+                const age = parseInt(ageInput.value);
+
+                const ageValidation = validateAge(age);
+                if (!ageValidation.valid) {
+                    displayError(ageValidation.message);
+                    return;
+                }
+
+                const assumptions = getAssumptionsFromInputs();
+                const requiredBalance = calculateRequiredSuperBalance(age, assumptions);
+                displayResult(requiredBalance);
+            } catch (error) {
+                displayError(`Calculation error: ${error.message}`);
+            } finally {
+                // Reset loading state
+                calculateBtn.innerHTML = originalText;
+                calculateBtn.disabled = false;
+            }
+        }
+
+        function recalculateWithAssumptions() {
+            calculate(); // Same logic, just triggered from assumptions panel
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialize with default values
+            const defaults = getDefaultAssumptions();
+            document.getElementById('salaryInput').value = defaults.salary;
+            document.getElementById('wageGrowthInput').value = defaults.wageGrowth;
+            document.getElementById('sgInput').value = defaults.sgRate;
+            document.getElementById('returnInput').value = defaults.returnRate;
+            document.getElementById('prcntFeeInput').value = defaults.percentFee;
+            document.getElementById('dollarFeeInput').value = defaults.dollarFee;
+            document.getElementById('insuranceInput').value = defaults.insurance;
+        });
+    </script>
+
+    <style>
+        /* Use container-xl so the layout has enough width on desktop before the xl breakpoint. */
+        * {
+            box-sizing: border-box;
+        }
+
+        /* Allow Bootstrap grid children to shrink and prevent odd wrapping or overflow. */
+        .row > [class*="col-"] {
+            min-width: 0;
+        }
+
+        /* Prevent long text in the right panel and accordion from stretching the layout. */
+        .important-panel,
+        .accordion-body {
+            overflow-wrap: anywhere;
+        }
+
+        /* Ensure the right panel remains readable at desktop sizes without using fixed widths. */
+        @media (min-width: 1200px) {
+            .important-panel {
+                min-width: 320px;
+            }
+        }
+    </style>
+</body>
 </html>
