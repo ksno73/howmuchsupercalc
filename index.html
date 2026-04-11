@@ -3,20 +3,21 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>How much super should I have?</title>
+    <title>How much super should I have at my age?</title>
 
     <!-- Bootstrap 5 CSS CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 <body>
     <div class="container-xl py-5">
-        <div class="row g-4 align-items-start">
-            <!-- Calculator column with border -->
-            <div class="col-12 col-xl-8">
-                <div class="border rounded-3 p-4">
+        <div class="tool-frame border rounded-3 overflow-hidden mb-4">
+            <div class="row g-0 align-items-start">
+            <!-- Calculator column -->
+            <div class="col-12 col-lg-7 col-xl-8">
+                <div class="tool-main p-4">
                     <section>
-                        <h1 class="h2 mb-2">How much super should I have?</h1>
-                        <p class="text-muted mb-4">Enter your current age to estimate the super balance needed for comfortable retirement planning.</p>
+                        <h1 class="h2 mb-2 calc-page-title">How much super should I have at my age?</h1>
+                        <p class="text-muted mb-4">Check what your super balance should be now to retire comfortably.</p>
 
                         <div class="mb-3">
                             <label for="age" class="form-label">Enter your current age:</label>
@@ -68,7 +69,10 @@
                                         </div>
                                     </div>
 
-                                    <button type="button" class="btn btn-secondary mt-4" onclick="recalculateWithAssumptions()">Recalculate</button>
+                                    <div class="d-flex flex-wrap gap-2 mt-4">
+                                        <button type="button" class="btn btn-primary" onclick="recalculateWithAssumptions()">Recalculate</button>
+                                        <button type="button" class="btn btn-assumptions-reset" onclick="resetAssumptionsToDefaults()">Reset</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -76,23 +80,20 @@
                 </div>
             </div>
 
-            <!-- Important information column -->
-            <div class="col-12 col-xl-4">
-                <div class="important-panel mb-4 border rounded-3 overflow-hidden">
-                    <div class="p-3 bg-light border-bottom">
-                        <h2 class="h6 mb-0">Important information</h2>
-                    </div>
-                    <div class="p-4">
-                        <p class="mb-3"><strong>This calculator:</strong></p>
-                        <ul class="mb-0 ps-3">
+            <!-- Important information column (inner card inside outer tool-frame) -->
+            <div class="col-12 col-lg-5 col-xl-4 tool-sidebar p-3 p-lg-4">
+                <div class="important-panel important-panel-card overflow-hidden">
+                    <div class="important-panel-card__intro">
+                        <h2 class="about-calc-heading">About this Calculator:</h2>
+                        <ul class="about-calc-list list-unstyled mb-0">
                             <li>Estimates how much super a single person should have today to be on track for a comfortable retirement</li>
                             <li>Is based on ASFAs benchmark for retirement spending, which you can read about here</li>
                             <li>Is an estimate only and should not be relied upon for making financial or product decisions</li>
                         </ul>
                     </div>
 
-                    <div class="accordion" id="importantAccordion" style="border-top: 1px solid #dee2e6;">
-                        <div class="accordion-item border-0">
+                    <div class="accordion important-panel-card__accordion border-0" id="importantAccordion">
+                        <div class="accordion-item border-0 rounded-0 bg-transparent">
                             <h2 class="accordion-header" id="importantHeading">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#importantCollapse" aria-expanded="false" aria-controls="importantCollapse">
                                     Read the limitations & assumptions
@@ -100,14 +101,63 @@
                             </h2>
                             <div id="importantCollapse" class="accordion-collapse collapse" aria-labelledby="importantHeading">
                                 <div class="accordion-body">
-                                    <p>This calculator is for illustration only. It uses general assumptions and does not take into account your individual financial situation, goals, or risk profile. Do not rely on this estimate as financial advice.</p>
-                                    <p>The estimate is based on fixed assumptions about wage growth, investment returns, fees, insurance costs, and contributions. Actual results may vary due to changes in the market, your employment, legislation, fees, or personal circumstances.</p>
-                                    <p>For a precise assessment, review the assumptions carefully and consider seeking qualified financial advice.</p>
+                                    <p class="fw-bold mb-2">Purpose</p>
+                                    <p class="mb-3">
+                                        This calculator is designed to provide a basic estimate of how much super a single person should currently have in super to be on track for a comfortable lifestyle in retirement.
+                                    </p>
+
+                                    <p class="fw-bold mb-2">Limitations</p>
+                                    <p class="mb-2">
+                                        A calculator such as this is a rough estimate; its most significant limitations that will impact the calculation include:
+                                    </p>
+                                    <ul class="mb-3 ps-3">
+                                        <li class="mb-2">
+                                            The calculator uses the ASFA &ldquo;Comfortable&rdquo; retirement standard for a single person as an assumption of how much is needed at retirement at age 67. This figure is $630,000 as at March 2026. If you are not single, are not a homeowner, or intend to retire at a different age this figure may not be appropriate.
+                                        </li>
+                                        <li class="mb-2">
+                                            The calculator assumes constant investment returns every year. Actual returns will vary over time, which means you may need a different amount than that shown.
+                                        </li>
+                                        <li class="mb-2">
+                                            The calculator assumes that investment returns and superannuation contributions are applied annually at the end of the year; this is likely to overestimate the amount of superannuation required today.
+                                        </li>
+                                        <li class="mb-0">Does not account for any voluntary contributions you may be making.</li>
+                                    </ul>
+
+                                    <p class="fw-bold mb-2">Disclaimer and assumptions</p>
+                                    <p class="mb-2">This calculator is provided by ….</p>
+                                    <p class="mb-2">
+                                        The information is general only and does not take into account your personal objectives, situation or needs. The results are not intended to be relied on for the purposes of making a decision in relation to a financial product. Before making any financial decisions consider your own financial circumstances, needs and objectives and consider getting professional financial advice.
+                                    </p>
+                                    <p class="mb-3">
+                                        It is important to remember the projections are illustrations only and your actual results are not guaranteed in any way.
+                                    </p>
+
+                                    <p class="fw-bold mb-2">Salary and superannuation contributions</p>
+                                    <p class="mb-2">
+                                        The calculator uses a default salary of $74,100 which is the median salary in Australia as of August 2025. Salary is assumed to increase with wage inflation.
+                                    </p>
+                                    <p class="mb-3">
+                                        Employer superannuation contributions are calculated as a percentage of salary and are defaulted to the Superannuation Guarantee (SG) rate of 12%. Concessional contributions up to the concessional contributions cap are generally taxed at 15%. For the 2025-2026 financial year the annual general concessional cap is $30,000. This calculator assumes that no contributions are made above the cap.
+                                    </p>
+
+                                    <p class="fw-bold mb-2">Administration fees and costs, and insurance premiums</p>
+                                    <p class="mb-2">
+                                        Gross administration fees and costs of $62.40 per annum, plus 0.10% per annum have been included in the projections by default. These administration fee and costs assumptions are reasonable as they are aligned with the current fees and costs paid by an Australian Retirement Trust member for whom this calculator is designed to be used.
+                                    </p>
+                                    <p class="mb-3">
+                                        We have used a default amount of $521 p.a., increased with wage inflation each year, which we believe is reasonable as this is the default amount used in ASIC&rsquo;s MoneySmart Superannuation Calculator.
+                                    </p>
+
+                                    <p class="fw-bold mb-2">Investment returns</p>
+                                    <p class="mb-0">
+                                        A default investment return of 6.5% is used in the calculator, which can be varied. Investment returns are after investment fees and costs, and taxes.
+                                    </p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     </div>
@@ -297,9 +347,7 @@
             calculate(); // Same logic, just triggered from assumptions panel
         }
 
-        // Event listeners
-        document.addEventListener('DOMContentLoaded', function () {
-            // Initialize with default values
+        function applyDefaultAssumptionsToInputs() {
             const defaults = getDefaultAssumptions();
             document.getElementById('salaryInput').value = defaults.salary;
             document.getElementById('wageGrowthInput').value = defaults.wageGrowth;
@@ -308,18 +356,133 @@
             document.getElementById('prcntFeeInput').value = defaults.percentFee;
             document.getElementById('dollarFeeInput').value = defaults.dollarFee;
             document.getElementById('insuranceInput').value = defaults.insurance;
+        }
+
+        function resetAssumptionsToDefaults() {
+            applyDefaultAssumptionsToInputs();
+            calculate();
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            applyDefaultAssumptionsToInputs();
         });
     </script>
 
     <style>
-        /* Use container-xl so the layout has enough width on desktop before the xl breakpoint. */
+        :root {
+            --calc-primary: #0052ff;
+            --calc-primary-rgb: 0, 82, 255;
+            --calc-primary-hover: #0046e0;
+            --calc-callout-bg: #e6f7ff;
+            --calc-rhs-heading: #1a365d;
+            --calc-rhs-body: #4a5568;
+            --calc-accent-blue: #0056d2;
+            --calc-border: #d1d1d1;
+            --calc-muted-bg: #f2f2f2;
+            --calc-navy-text: #0f2744;
+            --bs-primary: #0052ff;
+            --bs-primary-rgb: 0, 82, 255;
+        }
+
+        /* container-xl max width; tool columns use lg so two columns appear from 992px. */
         * {
             box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: #333;
+        }
+
+        .calc-page-title {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            color: var(--calc-navy-text);
+            letter-spacing: -0.02em;
         }
 
         /* Allow Bootstrap grid children to shrink and prevent odd wrapping or overflow. */
         .row > [class*="col-"] {
             min-width: 0;
+        }
+
+        .tool-frame {
+            border-color: var(--calc-border) !important;
+            border-radius: 1rem !important;
+        }
+
+        .tool-frame .form-control {
+            border-radius: 0.5rem;
+            border-color: var(--calc-border);
+        }
+
+        .tool-frame .form-control:focus {
+            border-color: var(--calc-primary);
+            box-shadow: 0 0 0 0.2rem rgba(var(--calc-primary-rgb), 0.2);
+        }
+
+        .tool-frame .btn-primary {
+            --bs-btn-bg: var(--calc-primary);
+            --bs-btn-border-color: var(--calc-primary);
+            --bs-btn-color: #fff;
+            --bs-btn-hover-bg: var(--calc-primary-hover);
+            --bs-btn-hover-border-color: var(--calc-primary-hover);
+            --bs-btn-hover-color: #fff;
+            --bs-btn-active-bg: var(--calc-primary-hover);
+            --bs-btn-active-border-color: var(--calc-primary-hover);
+            --bs-btn-active-color: #fff;
+            border-radius: 2rem;
+            font-weight: 700;
+            padding-left: 1.25rem;
+            padding-right: 1.25rem;
+        }
+
+        /* Pill: light gray fill, bold blue text (reference) */
+        .tool-frame .btn-assumptions-reset {
+            --bs-btn-bg: #f2f2f2;
+            --bs-btn-border-color: #f2f2f2;
+            --bs-btn-color: var(--calc-primary);
+            --bs-btn-hover-bg: #e8e8e8;
+            --bs-btn-hover-border-color: #e8e8e8;
+            --bs-btn-hover-color: var(--calc-primary);
+            --bs-btn-active-bg: #dedede;
+            --bs-btn-active-border-color: #dedede;
+            --bs-btn-active-color: var(--calc-primary);
+            border-radius: 2rem;
+            font-weight: 700;
+            padding-left: 1.25rem;
+            padding-right: 1.25rem;
+        }
+
+        /* Edit assumptions accordion — white, no grey shading */
+        .tool-main .accordion-item {
+            --bs-accordion-btn-bg: #fff;
+            --bs-accordion-active-bg: #fff;
+            background-color: #fff;
+            border-color: var(--calc-border);
+            border-radius: 0.75rem;
+            overflow: hidden;
+        }
+
+        .tool-main .accordion-button {
+            font-weight: 400;
+            font-size: 1rem;
+            color: #333;
+            background-color: #fff;
+            box-shadow: none;
+        }
+
+        .tool-main .accordion-button:not(.collapsed) {
+            color: #333;
+            background-color: #fff;
+        }
+
+        .tool-main .accordion-button:focus {
+            box-shadow: none;
+            border-color: var(--calc-border);
+        }
+
+        .tool-main .accordion-body {
+            background-color: #fff;
         }
 
         /* Prevent long text in the right panel and accordion from stretching the layout. */
@@ -328,10 +491,131 @@
             overflow-wrap: anywhere;
         }
 
-        /* Ensure the right panel remains readable at desktop sizes without using fixed widths. */
-        @media (min-width: 1200px) {
+        /* RHS callout card — pale blue panel (reference design) */
+        .important-panel-card {
+            --bs-accordion-btn-bg: var(--calc-callout-bg);
+            --bs-accordion-btn-color: var(--calc-rhs-body);
+            --bs-accordion-active-bg: var(--calc-callout-bg);
+            --bs-accordion-active-color: var(--calc-rhs-body);
+            --bs-accordion-btn-focus-border-color: transparent;
+            --bs-accordion-btn-focus-box-shadow: none;
+            background-color: var(--calc-callout-bg);
+            border: 1px solid var(--calc-border) !important;
+            border-radius: 1.5rem !important;
+            box-shadow: 0 1px 2px rgba(26, 54, 93, 0.06);
+        }
+
+        .important-panel-card__intro {
+            padding: 2rem 2rem 1.25rem;
+        }
+
+        .about-calc-heading {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--calc-rhs-heading);
+            margin-bottom: 1.25rem;
+            line-height: 1.35;
+        }
+
+        .about-calc-list li {
+            position: relative;
+            padding-left: 2.25rem;
+            margin-bottom: 1rem;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: var(--calc-rhs-body);
+        }
+
+        .about-calc-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .about-calc-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            top: 0.12rem;
+            width: 1.35rem;
+            height: 1.35rem;
+            border-radius: 50%;
+            background-color: var(--calc-accent-blue);
+            color: #fff;
+            font-size: 0.6rem;
+            font-weight: 700;
+            line-height: 1.35rem;
+            text-align: center;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .important-panel-card__accordion {
+            border-top: 1px solid rgba(26, 54, 93, 0.1);
+        }
+
+        .important-panel-card .accordion-item {
+            background-color: var(--calc-callout-bg);
+            border: 0;
+        }
+
+        .important-panel-card .accordion-button {
+            font-weight: 400;
+            font-size: 1rem;
+            color: var(--calc-rhs-body);
+            background-color: var(--calc-callout-bg);
+            box-shadow: none;
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+
+        .important-panel-card .accordion-button:not(.collapsed) {
+            color: var(--calc-rhs-body);
+            background-color: var(--calc-callout-bg);
+        }
+
+        .important-panel-card .accordion-button:focus {
+            box-shadow: none;
+            border-color: transparent;
+        }
+
+        .important-panel-card .accordion-button::after {
+            filter: brightness(0.35);
+        }
+
+        .important-panel-card .accordion-body {
+            background-color: var(--calc-callout-bg);
+            color: var(--calc-rhs-body);
+            padding-left: 2rem;
+            padding-right: 2rem;
+            padding-bottom: 2rem;
+        }
+
+        .important-panel-card .accordion-body .fw-bold {
+            color: var(--calc-rhs-heading);
+            font-weight: 700;
+        }
+
+        #result.alert-primary {
+            border-radius: 0.5rem;
+            border-color: rgba(var(--calc-primary-rgb), 0.35);
+        }
+
+        #result.alert-secondary {
+            border-radius: 0.5rem;
+        }
+
+        /* Two-column layout from lg (992px): main is narrower 7/5 until xl, then 8/4. */
+        @media (min-width: 992px) {
             .important-panel {
-                min-width: 320px;
+                min-width: 0;
+            }
+        }
+
+        /* Stacked layout: horizontal divider above Important information. */
+        @media (max-width: 991.98px) {
+            .tool-frame .tool-sidebar {
+                border-top: 1px solid var(--calc-border);
             }
         }
     </style>
