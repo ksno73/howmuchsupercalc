@@ -2,7 +2,7 @@
 ,variables,name,Default value,Notes,
 ,retirement age,retage,67,,
 ,Balance needed at 67  - single,asfacomfortable_single,"$630,000",,
-,Balance needed at 67  - couple,asfacomfortable_couple,"$735,000",,
+,Balance needed at 67  - couple,asfacomfortable_couple,"$730,000",,
 ,Wage Inflation,wagegrowth,3.70%,,
 ,Price inflation,cpi,2.50%,,
 input,single/couple,ptr_status,Single, this should be   radio buttons,

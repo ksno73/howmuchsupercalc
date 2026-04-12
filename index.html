@@ -136,7 +136,7 @@
                                     </p>
                                     <ul class="mb-3 ps-3">
                                         <li class="mb-2">
-                                            The calculator uses the ASFA &ldquo;Comfortable&rdquo; retirement standard as an assumption of how much combined super is needed at retirement at age 67: <strong>$630,000</strong> for a single person or <strong>$735,000</strong> for a couple, as at March 2026, depending on the option you select. If you are not a homeowner, or intend to retire at a different age, these figures may not be appropriate.
+                                            The calculator uses the ASFA &ldquo;Comfortable&rdquo; retirement standard as an assumption of how much combined super is needed at retirement at age 67: <strong>$630,000</strong> for a single person or <strong>$730,000</strong> for a couple, as at March 2026, depending on the option you select. If you are not a homeowner, or intend to retire at a different age, these figures may not be appropriate.
                                         </li>
                                         <li class="mb-2">
                                             The calculator assumes constant investment returns every year. Actual returns will vary over time, which means you may need a different amount than that shown.
@@ -203,7 +203,7 @@
         const CALCULATION_CONSTANTS = {
             retirementAge: 67,
             asfaComfortableSingle: 630000,
-            asfaComfortableCouple: 735000,
+            asfaComfortableCouple: 730000,
             concessionalCap: 30000, // per person; not editable in UI
             cpi: 0.025, // included per model but unused
             contributionTax: 0.15,
@@ -361,13 +361,37 @@
         function displayResult(balance, householdMode) {
             const resultDiv = document.getElementById('result');
             resultDiv.classList.remove('visually-hidden');
-            resultDiv.classList.add('alert-primary');
-            resultDiv.classList.remove('alert-danger');
-            const line =
+            resultDiv.classList.remove('alert-danger', 'alert-primary');
+            resultDiv.classList.add('alert-secondary');
+            const asfaTarget = getAsfaTargetAtRetirement(householdMode);
+            const ra = CALCULATION_CONSTANTS.retirementAge;
+            const contextHtml =
                 householdMode === 'couple'
-                    ? `<p>To be on track your household should have around ${formatCurrency(balance)} in super today.</p>`
-                    : `<p>To be on track you should have around ${formatCurrency(balance)}.</p>`;
-            resultDiv.innerHTML = line;
+                    ? `The Association of Superannuation Funds of Australia (ASFA) suggests that, as a couple, you need to have around <strong>${formatCurrency(asfaTarget)}</strong> combined in retirement savings at age ${ra} for a comfortable lifestyle.`
+                    : `The Association of Superannuation Funds of Australia (ASFA) suggests you need to have around <strong>${formatCurrency(asfaTarget)}</strong> in retirement savings at age ${ra} for a comfortable lifestyle.`;
+            const headlineText =
+                householdMode === 'couple'
+                    ? `To be on track your household should have roughly ${formatCurrency(balance)} in super today.`
+                    : `To be on track you should have roughly ${formatCurrency(balance)} in super today.`;
+            const retirementCalcHref = 'https://www.australianretirementtrust.com.au/learn/tools/retirement-calculator';
+            resultDiv.innerHTML = `
+                <div class="calc-result">
+                    <p class="calc-result__context small text-muted mb-2">${contextHtml}</p>
+                    <p class="calc-result__headline fw-bold fs-5 mb-3">${headlineText}</p>
+                    <p class="calc-result__lifestyle-intro mb-2">
+                        ASFA says a comfortable retirement lets you enjoy a good standard of living. So your retirement budget would cover:
+                    </p>
+                    <ul class="calc-result__list mb-3">
+                        <li>Private health insurance, new clothes, and a decent car</li>
+                        <li>Local holidays, social outings, exercise classes</li>
+                        <li>Home repairs, air conditioning, streaming services</li>
+                    </ul>
+                    <p class="calc-result__footer small text-muted mb-0">
+                        This is a rough guide only. For a detailed projection use our
+                        <a href="${retirementCalcHref}" class="link-primary" target="_blank" rel="noopener noreferrer">retirement calculator</a>.
+                    </p>
+                </div>
+            `;
         }
 
         function displayError(message) {
@@ -375,7 +399,8 @@
             resultDiv.classList.remove('visually-hidden');
             resultDiv.classList.add('alert-danger');
             resultDiv.classList.remove('alert-success');
-            resultDiv.innerHTML = `<p>${message}</p>`;
+            resultDiv.classList.remove('alert-primary', 'alert-secondary');
+            resultDiv.innerHTML = `<p class="mb-0">${message}</p>`;
         }
 
         // UI Controller
@@ -467,7 +492,7 @@
                 'Spreadsheet parity: single, age 40, CSV defaults → $186,000',
             );
             console.assert(
-                calculateRequiredSuperBalance(40, goldenAssumptions, 'couple') === 98000,
+                calculateRequiredSuperBalance(40, goldenAssumptions, 'couple') === 96000,
                 'Spreadsheet parity: couple, both median salaries, age 40',
             );
         });
@@ -701,13 +726,36 @@
             font-weight: 700;
         }
 
-        #result.alert-primary {
-            border-radius: 0.5rem;
-            border-color: rgba(var(--calc-primary-rgb), 0.35);
-        }
-
+        /* Success output: light grey panel (lighter than default Bootstrap secondary) */
         #result.alert-secondary {
             border-radius: 0.5rem;
+            background-color: #f4f5f7;
+            border: 1px solid #e2e4e8;
+            color: #333;
+        }
+
+        #result.alert-secondary .calc-result__headline {
+            color: var(--calc-navy-text);
+            line-height: 1.35;
+        }
+
+        #result.alert-secondary .calc-result__lifestyle-intro,
+        #result.alert-secondary .calc-result__list {
+            color: #333;
+            font-size: 0.95rem;
+        }
+
+        #result.alert-secondary .calc-result__list {
+            padding-left: 1.25rem;
+            margin-bottom: 1rem !important;
+        }
+
+        #result.alert-secondary .calc-result__list li {
+            margin-bottom: 0.35rem;
+        }
+
+        #result.alert-secondary .calc-result__list li:last-child {
+            margin-bottom: 0;
         }
 
         /* RHS: narrow column (~22rem panel + sidebar padding); card fills width — no extra gutter */

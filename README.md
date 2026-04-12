@@ -68,7 +68,7 @@ npm test
 
 The calculator determines the current super balance needed to reach a comfortable retirement at age 67, assuming:
 
-- **Comfortable retirement balance**: $630,000 (provides ~$65,000 annual income)
+- **Comfortable retirement balance (ASFA, at age 67)**: $630,000 for a single person or $730,000 for a couple (combined super)
 - **Super guarantee rate**: 12% of salary (after 15% contributions tax)
 - **Investment return**: 6.5% per annum (after fees)
 - **Wage growth**: 3.7% per annum

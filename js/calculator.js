@@ -12,9 +12,14 @@ import { getNetContributionRate, getNetReturnRate } from './assumptions.js';
  * @param {number} assumptions.returnRate - Investment return rate (decimal, e.g., 0.065)
  * @param {number} assumptions.percentFee - Percentage fee rate (decimal, e.g., 0.001)
  * @param {number} assumptions.dollarFee - Fixed dollar fee
+ * @param {number} [targetAtRetirement] - ASFA comfortable combined balance at retirement (defaults to single-person target)
  * @returns {number} Required super balance rounded to nearest $1000
  */
-export function calculateRequiredSuperBalance(currentAge, assumptions) {
+export function calculateRequiredSuperBalance(
+    currentAge,
+    assumptions,
+    targetAtRetirement = CALCULATION_CONSTANTS.asfaComfortableSingle,
+) {
     const yearsToRetirement = CALCULATION_CONSTANTS.retirementAge - currentAge;
 
     const netContribution = getNetContributionRate(assumptions);
@@ -27,8 +32,7 @@ export function calculateRequiredSuperBalance(currentAge, assumptions) {
         (netReturn - assumptions.wageGrowth);
 
     // Future value of required retirement balance, adjusted for wage growth
-    const fvRequiredBalance =
-        CALCULATION_CONSTANTS.comfortableRetirementBalance * Math.pow(1 + assumptions.wageGrowth, yearsToRetirement);
+    const fvRequiredBalance = targetAtRetirement * Math.pow(1 + assumptions.wageGrowth, yearsToRetirement);
 
     // Current balance needed
     const currentBalanceNeeded = (fvRequiredBalance - fvContributions) / Math.pow(1 + netReturn, yearsToRetirement);
