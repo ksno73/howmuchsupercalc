@@ -13,11 +13,31 @@
         <div class="tool-frame border rounded-3 overflow-hidden mb-4">
             <div class="row g-0 align-items-start">
             <!-- Calculator column -->
-            <div class="col-12 col-lg-7 col-xl-8">
+            <div class="col-12 col-lg min-width-0">
                 <div class="tool-main p-4">
                     <section>
                         <h1 class="h2 mb-2 calc-page-title">How much super should I have at my age?</h1>
                         <p class="text-muted mb-4">Check what your super balance should be now to retire comfortably.</p>
+
+                        <fieldset class="mb-3" aria-label="Single or couple">
+                            <div class="d-flex flex-wrap gap-3">
+                                <div class="form-check">
+                                    <input
+                                        class="form-check-input"
+                                        type="radio"
+                                        name="householdType"
+                                        id="householdSingle"
+                                        value="single"
+                                        checked
+                                    />
+                                    <label class="form-check-label" for="householdSingle">Single</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="householdType" id="householdCouple" value="couple" />
+                                    <label class="form-check-label" for="householdCouple">Couple</label>
+                                </div>
+                            </div>
+                        </fieldset>
 
                         <div class="mb-3">
                             <label for="age" class="form-label">Enter your current age:</label>
@@ -42,6 +62,10 @@
                                         <div class="col-12 col-md-6">
                                             <label for="salaryInput" class="form-label">Salary ($)</label>
                                             <input id="salaryInput" type="number" class="form-control" placeholder="74,100" />
+                                        </div>
+                                        <div class="col-12 col-md-6 d-none" id="partnerSalaryRow">
+                                            <label for="partnerSalaryInput" class="form-label">Partner salary ($)</label>
+                                            <input id="partnerSalaryInput" type="number" class="form-control" placeholder="74,100" disabled />
                                         </div>
                                         <div class="col-12 col-md-6">
                                             <label for="wageGrowthInput" class="form-label">Wage growth (%)</label>
@@ -81,13 +105,13 @@
             </div>
 
             <!-- Important information column (inner card inside outer tool-frame) -->
-            <div class="col-12 col-lg-5 col-xl-4 tool-sidebar p-3 p-lg-4">
+            <div class="col-12 col-lg-auto tool-sidebar p-3 p-lg-4">
                 <div class="important-panel important-panel-card overflow-hidden">
                     <div class="important-panel-card__intro">
                         <h2 class="about-calc-heading">About this Calculator:</h2>
                         <ul class="about-calc-list list-unstyled mb-0">
-                            <li>Estimates how much super a single person should have today to be on track for a comfortable retirement</li>
-                            <li>Is based on ASFAs benchmark for retirement spending, which you can read about here</li>
+                            <li>Estimates how much super you (single) or your household (couple) should have today to be on track for a comfortable retirement</li>
+                            <li>Is based on ASFAs benchmark for retirement spending, which you can read about <a href="https://www.superannuation.asn.au/consumers/retirement-standard/" class="link-primary">here</a>.</li>
                             <li>Is an estimate only and should not be relied upon for making financial or product decisions</li>
                         </ul>
                     </div>
@@ -103,7 +127,7 @@
                                 <div class="accordion-body">
                                     <p class="fw-bold mb-2">Purpose</p>
                                     <p class="mb-3">
-                                        This calculator is designed to provide a basic estimate of how much super a single person should currently have in super to be on track for a comfortable lifestyle in retirement.
+                                        This calculator is designed to provide a basic estimate of how much super you should currently have (single) or your household should have together (couple) to be on track for a comfortable lifestyle in retirement.
                                     </p>
 
                                     <p class="fw-bold mb-2">Limitations</p>
@@ -112,7 +136,7 @@
                                     </p>
                                     <ul class="mb-3 ps-3">
                                         <li class="mb-2">
-                                            The calculator uses the ASFA &ldquo;Comfortable&rdquo; retirement standard for a single person as an assumption of how much is needed at retirement at age 67. This figure is $630,000 as at March 2026. If you are not single, are not a homeowner, or intend to retire at a different age this figure may not be appropriate.
+                                            The calculator uses the ASFA &ldquo;Comfortable&rdquo; retirement standard as an assumption of how much combined super is needed at retirement at age 67: <strong>$630,000</strong> for a single person or <strong>$735,000</strong> for a couple, as at March 2026, depending on the option you select. If you are not a homeowner, or intend to retire at a different age, these figures may not be appropriate.
                                         </li>
                                         <li class="mb-2">
                                             The calculator assumes constant investment returns every year. Actual returns will vary over time, which means you may need a different amount than that shown.
@@ -134,10 +158,10 @@
 
                                     <p class="fw-bold mb-2">Salary and superannuation contributions</p>
                                     <p class="mb-2">
-                                        The calculator uses a default salary of $74,100 which is the median salary in Australia as of August 2025. Salary is assumed to increase with wage inflation.
+                                        The calculator uses a default salary of $74,100 which is the median salary in Australia as of August 2025. For couple mode, the same default is used for partner salary. Salaries are assumed to increase with wage inflation.
                                     </p>
                                     <p class="mb-3">
-                                        Employer superannuation contributions are calculated as a percentage of salary and are defaulted to the Superannuation Guarantee (SG) rate of 12%. Concessional contributions up to the concessional contributions cap are generally taxed at 15%. For the 2025-2026 financial year the annual general concessional cap is $30,000. This calculator assumes that no contributions are made above the cap.
+                                        Employer superannuation contributions are calculated as a percentage of each salary and are defaulted to the Superannuation Guarantee (SG) rate of 12%. Concessional contributions up to the concessional contributions cap are generally taxed at 15%. For the 2025-2026 financial year the annual general concessional cap is $30,000 per person. This calculator caps each person&rsquo;s modelled concessional contributions at that amount (combined contributions for a couple can be up to twice the cap).
                                     </p>
 
                                     <p class="fw-bold mb-2">Administration fees and costs, and insurance premiums</p>
@@ -167,6 +191,7 @@
         // Input structure and defaults
         const DEFAULT_ASSUMPTIONS = {
             salary: 74100,
+            partnerSalary: 74100,
             wageGrowth: 3.7, // percentage
             sgRate: 12, // percentage (employer contribution rate)
             returnRate: 6.5, // percentage
@@ -177,7 +202,9 @@
 
         const CALCULATION_CONSTANTS = {
             retirementAge: 67,
-            comfortableRetirementBalance: 630000,
+            asfaComfortableSingle: 630000,
+            asfaComfortableCouple: 735000,
+            concessionalCap: 30000, // per person; not editable in UI
             cpi: 0.025, // included per model but unused
             contributionTax: 0.15,
         };
@@ -205,7 +232,13 @@
             return { valid: true, value: num };
         }
 
+        function getHouseholdMode() {
+            const el = document.querySelector('input[name="householdType"]:checked');
+            return el && el.value === 'couple' ? 'couple' : 'single';
+        }
+
         function validateAllAssumptions() {
+            const householdMode = getHouseholdMode();
             const validations = [
                 validateNumericInput(document.getElementById('salaryInput').value, 0, 250000, 'Salary'),
                 validateNumericInput(document.getElementById('wageGrowthInput').value, 0, 20, 'Wage Growth'),
@@ -216,15 +249,26 @@
                 validateNumericInput(document.getElementById('insuranceInput').value, 0, 10000, 'Annual insurance cost'),
             ];
 
+            if (householdMode === 'couple') {
+                validations.push(
+                    validateNumericInput(document.getElementById('partnerSalaryInput').value, 0, 250000, 'Partner salary'),
+                );
+            }
+
             const errors = validations.filter((v) => !v.valid).map((v) => v.message);
             if (errors.length > 0) {
                 return { valid: false, errors };
             }
 
+            const partnerSalary =
+                householdMode === 'couple' ? validations[7].value : getDefaultAssumptions().partnerSalary;
+
             return {
                 valid: true,
+                householdMode,
                 assumptions: {
                     salary: validations[0].value,
+                    partnerSalary,
                     wageGrowth: validations[1].value / 100, // Convert percentage to decimal
                     sgRate: validations[2].value / 100,
                     returnRate: validations[3].value / 100,
@@ -241,14 +285,32 @@
             if (!validation.valid) {
                 throw new Error(validation.errors.join(', '));
             }
-            return validation.assumptions;
+            return { householdMode: validation.householdMode, assumptions: validation.assumptions };
         }
 
-        function getNetContributionRate(assumptions) {
+        function grossConcessional(salary, sgRate, cap) {
+            return Math.min(salary * sgRate, cap);
+        }
+
+        function totalAnnualGrossConcessional(assumptions, householdMode) {
+            const cap = CALCULATION_CONSTANTS.concessionalCap;
+            const primary = grossConcessional(assumptions.salary, assumptions.sgRate, cap);
+            if (householdMode !== 'couple') {
+                return primary;
+            }
+            return primary + grossConcessional(assumptions.partnerSalary, assumptions.sgRate, cap);
+        }
+
+        function getAsfaTargetAtRetirement(householdMode) {
+            return householdMode === 'couple'
+                ? CALCULATION_CONSTANTS.asfaComfortableCouple
+                : CALCULATION_CONSTANTS.asfaComfortableSingle;
+        }
+
+        function getNetContributionRate(assumptions, householdMode) {
+            const gross = totalAnnualGrossConcessional(assumptions, householdMode);
             return (
-                assumptions.salary * assumptions.sgRate * (1 - CALCULATION_CONSTANTS.contributionTax) -
-                assumptions.dollarFee -
-                assumptions.insurance
+                gross * (1 - CALCULATION_CONSTANTS.contributionTax) - assumptions.dollarFee - assumptions.insurance
             );
         }
 
@@ -257,10 +319,11 @@
         }
 
         // Pure calculation logic
-        function calculateRequiredSuperBalance(currentAge, assumptions) {
+        function calculateRequiredSuperBalance(currentAge, assumptions, householdMode) {
             const yearsToRetirement = CALCULATION_CONSTANTS.retirementAge - currentAge;
+            const targetAtRetirement = getAsfaTargetAtRetirement(householdMode);
 
-            const netContribution = getNetContributionRate(assumptions);
+            const netContribution = getNetContributionRate(assumptions, householdMode);
             const netReturn = getNetReturnRate(assumptions);
 
             // Future value of contributions using geometric series formula
@@ -270,8 +333,7 @@
                 (netReturn - assumptions.wageGrowth);
 
             // Future value of required retirement balance, adjusted for wage growth
-            const fvRequiredBalance =
-                CALCULATION_CONSTANTS.comfortableRetirementBalance * Math.pow(1 + assumptions.wageGrowth, yearsToRetirement);
+            const fvRequiredBalance = targetAtRetirement * Math.pow(1 + assumptions.wageGrowth, yearsToRetirement);
 
             // Current balance needed
             const currentBalanceNeeded = (fvRequiredBalance - fvContributions) / Math.pow(1 + netReturn, yearsToRetirement);
@@ -296,12 +358,16 @@
             return `${(value * 100).toFixed(1)}%`;
         }
 
-        function displayResult(balance) {
+        function displayResult(balance, householdMode) {
             const resultDiv = document.getElementById('result');
             resultDiv.classList.remove('visually-hidden');
             resultDiv.classList.add('alert-primary');
             resultDiv.classList.remove('alert-danger');
-            resultDiv.innerHTML = `<p>To be on track you should have around ${formatCurrency(balance)}.</p>`;
+            const line =
+                householdMode === 'couple'
+                    ? `<p>To be on track your household should have around ${formatCurrency(balance)} in super today.</p>`
+                    : `<p>To be on track you should have around ${formatCurrency(balance)}.</p>`;
+            resultDiv.innerHTML = line;
         }
 
         function displayError(message) {
@@ -331,9 +397,9 @@
                     return;
                 }
 
-                const assumptions = getAssumptionsFromInputs();
-                const requiredBalance = calculateRequiredSuperBalance(age, assumptions);
-                displayResult(requiredBalance);
+                const { householdMode, assumptions } = getAssumptionsFromInputs();
+                const requiredBalance = calculateRequiredSuperBalance(age, assumptions, householdMode);
+                displayResult(requiredBalance, householdMode);
             } catch (error) {
                 displayError(`Calculation error: ${error.message}`);
             } finally {
@@ -350,6 +416,7 @@
         function applyDefaultAssumptionsToInputs() {
             const defaults = getDefaultAssumptions();
             document.getElementById('salaryInput').value = defaults.salary;
+            document.getElementById('partnerSalaryInput').value = defaults.partnerSalary;
             document.getElementById('wageGrowthInput').value = defaults.wageGrowth;
             document.getElementById('sgInput').value = defaults.sgRate;
             document.getElementById('returnInput').value = defaults.returnRate;
@@ -358,13 +425,51 @@
             document.getElementById('insuranceInput').value = defaults.insurance;
         }
 
+        function updatePartnerSalaryRowVisibility() {
+            const couple = getHouseholdMode() === 'couple';
+            const row = document.getElementById('partnerSalaryRow');
+            const input = document.getElementById('partnerSalaryInput');
+            if (couple) {
+                row.classList.remove('d-none');
+                input.disabled = false;
+            } else {
+                row.classList.add('d-none');
+                input.disabled = true;
+            }
+        }
+
         function resetAssumptionsToDefaults() {
+            document.getElementById('householdSingle').checked = true;
+            updatePartnerSalaryRowVisibility();
             applyDefaultAssumptionsToInputs();
             calculate();
         }
 
         document.addEventListener('DOMContentLoaded', function () {
             applyDefaultAssumptionsToInputs();
+            updatePartnerSalaryRowVisibility();
+            document.querySelectorAll('input[name="householdType"]').forEach(function (radio) {
+                radio.addEventListener('change', updatePartnerSalaryRowVisibility);
+            });
+
+            const goldenAssumptions = {
+                salary: 74100,
+                partnerSalary: 74100,
+                wageGrowth: 0.037,
+                sgRate: 0.12,
+                returnRate: 0.065,
+                percentFee: 0.001,
+                dollarFee: 57.2,
+                insurance: 521,
+            };
+            console.assert(
+                calculateRequiredSuperBalance(40, goldenAssumptions, 'single') === 186000,
+                'Spreadsheet parity: single, age 40, CSV defaults → $186,000',
+            );
+            console.assert(
+                calculateRequiredSuperBalance(40, goldenAssumptions, 'couple') === 98000,
+                'Spreadsheet parity: couple, both median salaries, age 40',
+            );
         });
     </script>
 
@@ -605,8 +710,24 @@
             border-radius: 0.5rem;
         }
 
-        /* Two-column layout from lg (992px): main is narrower 7/5 until xl, then 8/4. */
+        /* RHS: narrow column (~22rem panel + sidebar padding); card fills width — no extra gutter */
+        .min-width-0 {
+            min-width: 0;
+        }
+
         @media (min-width: 992px) {
+            /* ~22rem card (fits heading on one line) + p-lg-4 horizontal padding */
+            .tool-sidebar {
+                flex: 0 1 auto;
+                width: auto;
+                max-width: min(25rem, 100%);
+            }
+
+            .important-panel-card {
+                max-width: none;
+                width: 100%;
+            }
+
             .important-panel {
                 min-width: 0;
             }
