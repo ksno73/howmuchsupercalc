@@ -376,17 +376,9 @@
             const retirementCalcHref = 'https://www.australianretirementtrust.com.au/learn/tools/retirement-calculator';
             resultDiv.innerHTML = `
                 <div class="calc-result">
-                    <p class="calc-result__context small text-muted mb-2">${contextHtml}</p>
-                    <p class="calc-result__headline fw-bold fs-5 mb-3">${headlineText}</p>
-                    <p class="calc-result__lifestyle-intro mb-2">
-                        ASFA says a comfortable retirement lets you enjoy a good standard of living. So your retirement budget would cover:
-                    </p>
-                    <ul class="calc-result__list mb-3">
-                        <li>Private health insurance, new clothes, and a decent car</li>
-                        <li>Local holidays, social outings, exercise classes</li>
-                        <li>Home repairs, air conditioning, streaming services</li>
-                    </ul>
-                    <p class="calc-result__footer small text-muted mb-0">
+                    <p class="calc-result__context small text-muted">${contextHtml}</p>
+                    <p class="calc-result__headline fw-bold fs-5">${headlineText}</p>
+                    <p class="calc-result__footer small text-muted">
                         This is a rough guide only. For a detailed projection use our
                         <a href="${retirementCalcHref}" class="link-primary" target="_blank" rel="noopener noreferrer">retirement calculator</a>.
                     </p>
@@ -734,28 +726,23 @@
             color: #333;
         }
 
+        #result.alert-secondary .calc-result__context {
+            margin-top: 0;
+            margin-bottom: 1.75rem;
+            line-height: 1.55;
+        }
+
         #result.alert-secondary .calc-result__headline {
             color: var(--calc-navy-text);
-            line-height: 1.35;
+            line-height: 1.45;
+            margin-top: 0;
+            margin-bottom: 1.75rem;
         }
 
-        #result.alert-secondary .calc-result__lifestyle-intro,
-        #result.alert-secondary .calc-result__list {
-            color: #333;
-            font-size: 0.95rem;
-        }
-
-        #result.alert-secondary .calc-result__list {
-            padding-left: 1.25rem;
-            margin-bottom: 1rem !important;
-        }
-
-        #result.alert-secondary .calc-result__list li {
-            margin-bottom: 0.35rem;
-        }
-
-        #result.alert-secondary .calc-result__list li:last-child {
+        #result.alert-secondary .calc-result__footer {
+            margin-top: 0;
             margin-bottom: 0;
+            line-height: 1.55;
         }
 
         /* RHS: narrow column (~22rem panel + sidebar padding); card fills width — no extra gutter */
