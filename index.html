@@ -110,7 +110,7 @@
                     <div class="important-panel-card__intro">
                         <h2 class="about-calc-heading">About this Calculator:</h2>
                         <ul class="about-calc-list list-unstyled mb-0">
-                            <li>Estimates how much super you (single) or your household (couple) should have today to be on track for a comfortable retirement</li>
+                            <li>Estimates how much someone on a median income should have today to be on track for a comfortable retirement.</li>
                             <li>Is based on ASFAs benchmark for retirement spending, which you can read about <a href="https://www.superannuation.asn.au/consumers/retirement-standard/" class="link-primary">here</a>.</li>
                             <li>Is an estimate only and should not be relied upon for making financial or product decisions</li>
                         </ul>
@@ -370,9 +370,13 @@
                     ? `The Association of Superannuation Funds of Australia (ASFA) suggests that, as a couple, you need to have around <strong>${formatCurrency(asfaTarget)}</strong> combined in retirement savings at age ${ra} for a comfortable lifestyle.`
                     : `The Association of Superannuation Funds of Australia (ASFA) suggests you need to have around <strong>${formatCurrency(asfaTarget)}</strong> in retirement savings at age ${ra} for a comfortable lifestyle.`;
             const headlineText =
-                householdMode === 'couple'
-                    ? `To be on track your household should have roughly ${formatCurrency(balance)} in super today.`
-                    : `To be on track you should have roughly ${formatCurrency(balance)} in super today.`;
+                balance === 0
+                    ? householdMode === 'couple'
+                        ? `Based on this tool&rsquo;s assumptions, your household&rsquo;s projected super contributions alone appear enough to be on track for a comfortable retirement.`
+                        : `Based on this tool&rsquo;s assumptions, your projected super contributions alone appear enough to be on track for a comfortable retirement.`
+                    : householdMode === 'couple'
+                      ? `To be on track your household should have roughly ${formatCurrency(balance)} in super today.`
+                      : `To be on track you should have roughly ${formatCurrency(balance)} in super today.`;
             const retirementCalcHref = 'https://www.australianretirementtrust.com.au/learn/tools/retirement-calculator';
             resultDiv.innerHTML = `
                 <div class="calc-result">
